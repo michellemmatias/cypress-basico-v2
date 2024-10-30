@@ -1,0 +1,7 @@
+{
+    "debug.javascript.codelens.npmScripts": "top",
+    "npm.packageManager": "auto",
+    "npm.scriptExplorerAction": "open",
+    "typescript.check.npmIsInstalled": true,
+    "npm.autoDetect": "on"
+}
