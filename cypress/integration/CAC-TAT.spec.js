@@ -10,6 +10,7 @@
 /// Exercicio 1
 
 describe('Central de Atendimento ao Cliente TAT', function() {/// describle define a súite de testes
+    const THREE_SECONDS_IN_MS = 3000
     beforeEach(function(){ /// beforeEach serve para aproveitar o código função que antes de qualquer teste fará esse passo
         cy.visit('./src/index.html') /// visit acessa a página nesse caso localmente
        
@@ -24,6 +25,8 @@ describe('Central de Atendimento ao Cliente TAT', function() {/// describle defi
     //ct_2 Digitando campos no elemento
     it('preenche os campos obrigatórios e envia o formulário', function(){ ///.only significa que vai rodar somente esse cenário de testes
        //const é para criar uma variavel
+        cy.clock() // função que paralisa o relogio do navegador
+
         const longText = 'Testando cypress, vou aprender, vou conquistar o mundo, vou ser mestre em automação, vou conseguir, aperfeiçoar e vencer'
        cy.get('#firstName').type('Michelle')
        cy.get('#lastName').type('Matias')
@@ -33,10 +36,14 @@ describe('Central de Atendimento ao Cliente TAT', function() {/// describle defi
        cy.contains('button[type="submit"]', 'Enviar').click()
        cy.get ('.success').should('be.visible')
 
+       cy.tick(THREE_SECONDS_IN_MS)// avança o tempo do navegador
+       cy.get ('.success').should('not.be.visible')
   
     })
     //ct_3 Exercicio Extra 2
     it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function(){
+        cy.clock()
+
         cy.get('#firstName').type('Michelle')
         cy.get('#lastName').type('Matias')
         cy.get('#email').type('mimissonmatiasgmail.com')
@@ -44,6 +51,9 @@ describe('Central de Atendimento ao Cliente TAT', function() {/// describle defi
      // cy.get('button[type="submit"]').click()
         cy.contains('button', 'Enviar').click()
         cy.get ('.error').should('be.visible')
+
+        cy.tick(THREE_SECONDS_IN_MS)
+       cy.get ('.error').should('not.be.visible')
 
 
     })
@@ -57,6 +67,8 @@ describe('Central de Atendimento ao Cliente TAT', function() {/// describle defi
     
     ///ct_5 Exericio Extra 4
     it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function(){
+        cy.clock()
+
         cy.get('#firstName').type('Michelle')
         cy.get('#lastName').type('Matias')
         cy.get('#email').type('mimissonmatias@gmail.com')
@@ -65,6 +77,9 @@ describe('Central de Atendimento ao Cliente TAT', function() {/// describle defi
      // cy.get('button[type="submit"]').click()
         cy.contains('button', 'Enviar').click()
         cy.get ('.error').should('be.visible')
+
+        cy.tick(THREE_SECONDS_IN_MS)
+        cy.get ('.error').should('not.be.visible')
         
 
     })
@@ -92,16 +107,27 @@ describe('Central de Atendimento ao Cliente TAT', function() {/// describle defi
     } )
     ///ct_7 Exercicio Extra 6
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios',function(){
+        cy.clock()
+
         cy.contains('button', 'Enviar').click()
         //cy.get('button[type="submit"]').click()
         cy.get ('.error').should('be.visible')
 
+        cy.tick(THREE_SECONDS_IN_MS)
+        cy.get ('.error').should('not.be.visible')
+
     })
     //ct_8 Exercicio Extra 7 
     it('envia o formuário com sucesso usando um comando customizado', function(){
+
+        cy.clock()
+
         cy.fillMandatoryFieldsAndSubmit()
 
         cy.get ('.success').should('be.visible')
+
+        cy.tick(THREE_SECONDS_IN_MS)
+        cy.get ('.success').should('not.be.visible')
     })
    //ct09_Exercicio aula Seção 4
    it('seleciona um produto (YouTube) por seu texto', function(){
